@@ -12,6 +12,7 @@ public class MainManager : MonoBehaviour
 
     public Text ScoreText;
     public GameObject GameOverText;
+    public GameObject NewRecordText;
     
     private bool m_Started = false;
     private int m_Points;
@@ -66,11 +67,20 @@ public class MainManager : MonoBehaviour
     {
         m_Points += point;
         ScoreText.text = $"Score : {m_Points}";
+        if(DataStuff.Instance.bestScore < m_Points)
+        {
+            DataStuff.Instance.bestScore = m_Points;
+        }
     }
 
     public void GameOver()
     {
+        DataStuff.Instance.SaveJason();
         m_GameOver = true;
         GameOverText.SetActive(true);
+        if(DataStuff.Instance.bestScore == m_Points)
+        {
+            NewRecordText.SetActive(true);
+        }
     }
 }
